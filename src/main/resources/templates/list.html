@@ -26,10 +26,29 @@
       <li class="nav-item active">
         <a class="nav-link" href="/list">회원목록 <span class="sr-only">(current)</span></a>
       </li>
-    </ul>
+      </ul>
   </div>
 </nav>
-    <h1>Hello, world! Template</h1>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">사용자 아이디</th>
+      <th scope="col">이름</th>
+      <th scope="col">이메일</th>
+    </tr>
+  </thead>
+  <tbody>
+	{{#users}}
+    <tr>
+      <td>{{userId}}</td>
+      <td>{{name}}</td>
+      <td>{{email}}</td>
+    </tr>
+    {{/users}}
+  </tbody>
+</table>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
