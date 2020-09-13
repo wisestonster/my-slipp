@@ -13,6 +13,7 @@ public class WelcomeController {
 		
 		model.addAttribute("name", name);
 		model.addAttribute("age", age);
+		
 		return "welcome";
 	}
 }
