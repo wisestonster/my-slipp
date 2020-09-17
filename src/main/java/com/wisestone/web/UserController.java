@@ -49,7 +49,14 @@ public class UserController {
 		
 		return "redirect:/";
 	}
-	
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("user");
+		
+		return "redirect:/";
+	}
+
 	
 	@GetMapping("/form")
 	public String form() {
@@ -75,8 +82,12 @@ public class UserController {
 	@GetMapping("/{id}/form")
 	public String updateForm(@PathVariable Long id, Model model) {
 
-		User user = userRepository.findById(id).get();  
-		model.addAttribute("user", user); 
+		User user = userRepository.findById(id).get();
+
+		// model 객체가 있으면, 다시 추가하면 오류 발생.
+		if (model.equals(user)) {
+			model.addAttribute("user", user); 
+		}
 		
 //		model.addAttribute("user", userRepository.findOne(id));
 		
