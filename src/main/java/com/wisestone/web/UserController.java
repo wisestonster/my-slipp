@@ -1,5 +1,7 @@
 package com.wisestone.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,34 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@GetMapping("/loginForm")
+	public String loginForm() {
+
+		return "/user/login";
+	}
+
+	@PostMapping("/login")
+	public String login(String userId, String password, HttpSession session)
+	{
+		User user = userRepository.findByUserId(userId);
+		
+		if (user == null) {
+			System.out.println("해당 사용자가 없습니다.");
+			return "redirect:/users/loginForm";
+		}
+		
+		if (!password.equals(user.getPassword())) {
+			System.out.println("비밀번호 입력 오류");
+			return "redirect:/users/loginForm";
+		}
+
+		session.setAttribute("user", user);
+		System.out.println("로그인성공:" + user.toString());
+		
+		return "redirect:/";
+	}
+	
 	
 	@GetMapping("/form")
 	public String form() {
