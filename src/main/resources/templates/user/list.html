@@ -17,13 +17,13 @@
                     <th>#</th> <th>사용자 아이디</th> <th>이름</th> <th>이메일</th><th></th>
                 </tr>
               </thead>
-	{{#users}}
+	{{#sessionedUser}}
               <tbody>
                 <tr>
                     <th scope="row">{{id}}</th> <td>{{userId}}</td> <td>{{name}}</td> <td>{{email}}</td><td><a href="/users/{{id}}/form" class="btn btn-success" role="button">수정</a></td>
                 </tr>
               </tbody>
-    {{/users}}
+    {{/sessionedUser}}
 
           </table>
         </div>
