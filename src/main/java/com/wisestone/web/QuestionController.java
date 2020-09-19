@@ -29,7 +29,7 @@ public class QuestionController {
 		}
 		
 		User user = (User) sessionedUser;
-		Question newQuestion = new Question(user.getUserId(), title, contents);
+		Question newQuestion = new Question(user, title, contents);
 		
 		questionRepository.save(newQuestion);
 		
