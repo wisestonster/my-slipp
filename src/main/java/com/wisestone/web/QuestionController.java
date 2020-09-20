@@ -61,17 +61,43 @@ public class QuestionController {
 	}
 
 	@GetMapping("/{id}/form")
-	public String updateForm(@PathVariable Long id, Model model) {
-		model.addAttribute("question", questionRepository.findById(id).get());
+	public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
+		Question question = questionRepository.findById(id).get();
+
+		Object sessionedUser = session.getAttribute("sessionedUser");
+
+		if (sessionedUser == null) {
+			System.out.println("조회권한이 없습니다.");
+			return "redirect:/users/loginForm";
+		}
+
+		if (!question.isSameWriter((User) sessionedUser)) {
+			System.out.println("조회권한이 없습니다.");
+			return "redirect:/users/loginForm";
+		}
+
+		model.addAttribute("question", question);
 		
 		return "/qna/updateForm";
 	}
 
 	@PutMapping("/{id}")
-	public String update(@PathVariable Long id, String title, String contents) {
+	public String update(@PathVariable Long id, String title, String contents, HttpSession session) {
 		Question question = questionRepository.findById(id).get();
 		
-		System.out.println("현재 업데이트하고자 하는 아이디" + id);
+//		System.out.println("현재 업데이트하고자 하는 아이디" + id);
+		Object sessionedUser = session.getAttribute("sessionedUser");
+
+		if (sessionedUser == null) {
+			System.out.println("수정권한이 없습니다.");
+			return "redirect:/users/loginForm";
+		}
+
+		if (!question.isSameWriter((User) sessionedUser)) {
+			System.out.println("수정권한이 없습니다.");
+			return "redirect:/users/loginForm";
+		}
+		
 		question.update(title, contents);
 		questionRepository.save(question);
 		
@@ -79,7 +105,21 @@ public class QuestionController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public String delete(@PathVariable Long id) {
+	public String delete(@PathVariable Long id, HttpSession session) {
+		Question question = questionRepository.findById(id).get();
+
+		Object sessionedUser = session.getAttribute("sessionedUser");
+
+		if (sessionedUser == null) {
+			System.out.println("조회권한이 없습니다.");
+			return "redirect:/users/loginForm";
+		}
+
+		if (!question.isSameWriter((User) sessionedUser)) {
+			System.out.println("조회권한이 없습니다.");
+			return "redirect:/users/loginForm";
+		}
+
 		questionRepository.deleteById(id);
 		
 		return "redirect:/";
