@@ -39,7 +39,7 @@ public class UserController {
 			return "redirect:/users/loginForm";
 		}
 		
-		if (!password.equals(user.getPassword())) {
+		if (!password.equals(user.comparePassword())) {
 			System.out.println("비밀번호 입력 오류");
 			return "redirect:/users/loginForm";
 		}
